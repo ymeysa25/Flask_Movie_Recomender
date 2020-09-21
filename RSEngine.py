@@ -1,11 +1,11 @@
 import pandas as pd
 import json
-
-
+from fuzzywuzzy import process
 
 
 def load_db():
     return pd.read_csv("db/csv/MOVIES_DB.csv")
+
 
 movies = load_db()
 
@@ -38,16 +38,18 @@ def load_movie(category):
 
     return data
 
+
 def get_movie(idx):
-    movie = movies[idx:idx+1][['title', 'score', 'img_url', 'overview']].to_json(orient='records')
+    movie = movies[idx:idx + 1][['title', 'score', 'img_url', 'overview']].to_json(orient='records')
     movie = json.loads(movie)
     return movie
 
 
+indices = pd.Series(movies.index, index=movies['title']).drop_duplicates()
+
+
 # Function that takes in movie title as input and outputs most similar movies
 def get_recommendations(title, cosine_sim):
-    indices = pd.Series(movies.index, index= movies['title']).drop_duplicates()
-
     # Get the index of the movie that matches the title
     idx = indices[title]
     print(idx)
@@ -67,9 +69,26 @@ def get_recommendations(title, cosine_sim):
     avg_round = [round(i / 2) for i in movies['vote_average']]
     movies['vote_average'] = avg_round
 
-    movie_detail = movies[["title", "popularity", "img_url", "vote_average"]].iloc[movie_indices].to_json(orient='records')
+    movie_detail = movies[["title", "popularity", "img_url", "vote_average"]].iloc[movie_indices].to_json(
+        orient='records')
     movie_detail = json.loads(movie_detail)
-
 
     # Return the top 10 most similar movies
     return idx, movie_detail
+
+
+def searchMovie(search_name, limit=10):
+    fuzzy_score = process.extract(search_name, list(movies['title']), limit=limit)
+    movies_title = [name[0] for name in fuzzy_score]
+    movies_idx = [indices[movie] for movie in movies_title]
+
+    # normalize vote average
+    avg_round = [round(i / 2) for i in movies['vote_average']]
+    movies['vote_average'] = avg_round
+
+    movie_detail = movies[["title", "popularity", "img_url", "vote_average"]].iloc[movies_idx].to_json(orient='records')
+
+    movie_detail = json.loads(movie_detail)
+
+    # Return the top 10 most similar movies
+    return movie_detail

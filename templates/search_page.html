@@ -20,10 +20,9 @@
 
 
 </head>
-
 <body style="background-color:black;">
 
-  <!-- START PAGE SOURCE -->
+<!-- START PAGE SOURCE -->
   <div id="shell">
     <div id="header">
       <h1 id="logo"><a href="#">MovieRecomender</a></h1>
@@ -58,25 +57,16 @@
         </div>
       </div>
     </div>
-    <div class="movie-detail">
-        <h1>{{data.title}}</h1>
-      <div class="row">
-        <img src={{data.img_url}}>
-    <p>{{data.overview}}</p>
-      </div>
-    </div>
-
-
-      <div id="main">
+    <div id="main">
       <div id="content">
 
-        <!--  Same Story   -->
+        <!--  Popular Movie   -->
         <div class="box">
           <div class="head">
-            <h2>Recommended by Same Story</h2>
+            <h2>Movie you are looking for "{{search_field}}"</h2>
             <p class="text-right"><a href="#">See all</a></p>
           </div>
-          {% for item in movie_by_story[:5] %}
+          {% for item in movie_search%}
           <div class="movie">
             <div class="movie-image">
               <span class="play"><a href="/movies?title={{item.title}}"><span class="name">{{item.title}}</span></a></span>
@@ -92,67 +82,11 @@
             </div>
           </div>
           {% endfor %}
-          {% for item in movie_by_story[5:6] %}
-          <div class="movie last">
-            <div class="movie-image">
-              <span class="play"><a href="/movies?title={{item.title}}"><span class="name">{{item.title}}</span></a></span>
-              <a><img src={{item.img_url}} alt="" /></a> </div>
-            <div class="rating">
-              <p>RATING</p>
-              <div class="Mystars">
-                {% for index in range (item.vote_average) %}
-                <i style="color:#DEAF37;" class="fa fa-star"></i>
-                {% endfor %}
-              </div>
-              <span class="comments"></span>
-            </div>
-          </div>
-          {% endfor %}
-
-          <!--  Recommend by Features   -->
-        <div class="box">
-          <div class="head">
-            <h2>Recommended by Genre</h2>
-            <p class="text-right"><a href="#">See all</a></p>
-          </div>
-          {% for item in movie_by_feature[:5] %}
-          <div class="movie">
-            <div class="movie-image">
-              <span class="play"><a href="/movies?title={{item.title}}"><span class="name">{{item.title}}</span></a></span>
-              <a><img src={{item.img_url}} alt="" /></a> </div>
-            <div class="rating">
-              <p style="margin-right:2px">RATING</p>
-              <div class="Mystars">
-                {% for index in range (item.vote_average) %}
-                <i style="color:#DEAF37;" class="fa fa-star"></i>
-                {% endfor %}
-              </div>
-              <span class="comments"></span>
-            </div>
-          </div>
-          {% endfor %}
-          {% for item in movie_by_feature[5:6] %}
-          <div class="movie last">
-            <div class="movie-image">
-              <span class="play"><a href="/movies?title={{item.title}}"><span class="name">{{item.title}}</span></a></span>
-              <a><img src={{item.img_url}} alt="" /></a> </div>
-            <div class="rating">
-              <p>RATING</p>
-              <div class="Mystars">
-                {% for index in range (item.vote_average) %}
-                <i style="color:#DEAF37;" class="fa fa-star"></i>
-                {% endfor %}
-              </div>
-              <span class="comments"></span>
-            </div>
-          </div>
-          {% endfor %}
-
 
           <div class="cl">&nbsp;</div>
         </div>
       </div>
-      </div>
+    </div>
 
 </body>
 </html>
