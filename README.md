@@ -53,6 +53,10 @@ Now open your browser and go to this address
 ```
 http://127.0.0.1:5000
 ```
+### Traing Process
+You can see Training process from here
+[Click Here](https://github.com/ymeysa25/Movie-Recommender-System)
+
 Thank you for visiting my repository.
 
 Don't forget to give star!!
